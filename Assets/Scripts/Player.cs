@@ -157,7 +157,9 @@ public class Player : MonoBehaviour
         {
             if (isMoving)
             {
-                float orientation = moveRight ? 1f : -1f;
+                float orientation = 1f;
+                if (PlayerGO.transform.localEulerAngles.y == 180f)
+                    orientation = -1f;
                 ball.SpinBall();
                 ball.MoveBall(new Vector3(this.transform.localPosition.x + ballOffsetX * orientation, this.transform.localPosition.y + ballOffsetY, this.transform.localPosition.z));
             }
@@ -166,6 +168,22 @@ public class Player : MonoBehaviour
                 ball.StopBall();
             }
 
+        }
+        bool kickBall = Input.GetKey(KeyCode.Space) && ball != null;
+        if (kickBall)
+        {
+            float xSpeed = 0;
+            if (currentPlayerOrientation == PlayerOrientation.UpRight || currentPlayerOrientation == PlayerOrientation.Right || currentPlayerOrientation == PlayerOrientation.DownRight)
+                xSpeed = 10f;
+            if (currentPlayerOrientation == PlayerOrientation.UpLeft || currentPlayerOrientation == PlayerOrientation.Left || currentPlayerOrientation == PlayerOrientation.DownLeft)
+                xSpeed = -10f;
+            float ySpeed = 0;
+            if (currentPlayerOrientation == PlayerOrientation.UpRight || currentPlayerOrientation == PlayerOrientation.Up || currentPlayerOrientation == PlayerOrientation.UpLeft)
+                ySpeed = 10f;
+            if (currentPlayerOrientation == PlayerOrientation.DownRight || currentPlayerOrientation == PlayerOrientation.Down || currentPlayerOrientation == PlayerOrientation.DownLeft)
+                ySpeed = -10f;
+            ball.LaunchBall(new Vector2(xSpeed, ySpeed));
+            ball = null;
         }
     }
 
