@@ -53,6 +53,10 @@ public class Player : MonoBehaviour
 	float controllerLeftStickX;
 	float controllerLeftStickY;
 
+    Ball ball;
+    float ballOffsetY = -.5f;
+    float ballOffsetX = .6f;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -148,6 +152,30 @@ public class Player : MonoBehaviour
         //     GunGO.transform.localEulerAngles = new Vector3(0, 0, 270f);
         // else if (currentPlayerOrientation == PlayerOrientation.DownLeft || currentPlayerOrientation == PlayerOrientation.DownRight)
         //     GunGO.transform.localEulerAngles = new Vector3(0, 0, 315f);
+
+        if (ball)
+        {
+            if (isMoving)
+            {
+                float orientation = moveRight ? 1f : -1f;
+                ball.SpinBall();
+                ball.MoveBall(new Vector3(this.transform.localPosition.x + ballOffsetX * orientation, this.transform.localPosition.y + ballOffsetY, this.transform.localPosition.z));
+            }
+            else
+            {
+                ball.StopBall();
+            }
+
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D other) {
+        Debug.Log(other.tag);
+        if (other.tag == "Ball")
+        {
+            ball = other.GetComponent<Ball>();
+            ball.SpinBall();
+        }
     }
 
 }
