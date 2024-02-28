@@ -63,11 +63,11 @@ public class Ball : MonoBehaviour
         Debug.Log(other.tag);
         if (other.tag == "Wall" && isMoving)
         {
-            // maxMovementVector = maxMovementVector * -1f;
             maxMovementVector = Vector2.Reflect(maxMovementVector, other.GetComponent<Wall>().GetInNormal());
+            float rotation = Random.Range(-20f, 20f);
+            maxMovementVector = Quaternion.AngleAxis(rotation, Vector3.forward) * maxMovementVector;
             if (lerpTimer < .5f)
                 lerpTimer = .5f;
-            Debug.Log(maxMovementVector);
         }
     }
 }
