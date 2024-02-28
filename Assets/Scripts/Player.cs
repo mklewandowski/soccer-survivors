@@ -183,15 +183,7 @@ public class Player : MonoBehaviour
             }
         }
 
-        if (!holdingKick && !kicking && ball)
-        {
-            holdingKick = Input.GetKeyDown(KeyCode.Space);
-            if (holdingKick)
-            {
-                kickTimer = 0;
-                PowerBar.SetActive(true);
-            }
-        }
+        CheckHoldingKick();
 
         if (holdingKick)
         {
@@ -208,6 +200,19 @@ public class Player : MonoBehaviour
         {
             StartCoroutine(KickBall());
 
+        }
+    }
+
+    void CheckHoldingKick()
+    {
+        if (!holdingKick && !kicking && ball)
+        {
+            holdingKick = Input.GetKey(KeyCode.Space);
+            if (holdingKick)
+            {
+                kickTimer = 0;
+                PowerBar.SetActive(true);
+            }
         }
     }
 
@@ -241,17 +246,13 @@ public class Player : MonoBehaviour
         kicking = false;
     }
 
-    public void EndKick()
-    {
-
-    }
-
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.tag == "Ball")
         {
             ball = other.GetComponent<Ball>();
             ball.SpinBall();
+            CheckHoldingKick();
         }
     }
 
