@@ -57,7 +57,7 @@ public class Player : MonoBehaviour
     float maxKickPower = 20f;
     float kickPower = 5f;
     float kickTimer = 0;
-    float kickTimerMax = 2f;
+    float kickTimerMax = 1f;
     [SerializeField] GameObject PowerBar;
     [SerializeField] GameObject PowerBarFront;
     float maxPowerBarWidth = 100f;
