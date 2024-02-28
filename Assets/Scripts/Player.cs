@@ -58,6 +58,7 @@ public class Player : MonoBehaviour
     float kickPower = 5f;
     float kickTimer = 0;
     float kickTimerMax = 1f;
+    float kickTimerMultiplier = 1f;
     [SerializeField] GameObject PowerBar;
     [SerializeField] GameObject PowerBarFront;
     float maxPowerBarWidth = 100f;
@@ -187,8 +188,13 @@ public class Player : MonoBehaviour
 
         if (holdingKick)
         {
-            kickTimer += Time.deltaTime;
+            kickTimer += Time.deltaTime * kickTimerMultiplier;
             kickTimer = Mathf.Min(kickTimer, kickTimerMax);
+            kickTimer = Mathf.Max(kickTimer, 0);
+            if (kickTimer >= kickTimerMax && kickTimerMultiplier > 0)
+                kickTimerMultiplier = -1f;
+            if (kickTimer <= 0 && kickTimerMultiplier < 0)
+                kickTimerMultiplier = 1f;
             // calc width
             float percent = kickTimer / kickTimerMax;
             kickPower = minKickPower + (maxKickPower - minKickPower) * percent;
@@ -211,6 +217,7 @@ public class Player : MonoBehaviour
             if (holdingKick)
             {
                 kickTimer = 0;
+                kickTimerMultiplier = 1f;
                 PowerBar.SetActive(true);
             }
         }
@@ -223,6 +230,7 @@ public class Player : MonoBehaviour
         playerAnimator.Play("player-shoot" + Globals.AnimationSuffixes[(int)Globals.currentPlayerType]);
         PowerBar.SetActive(false);
         kickTimer = 0;
+        kickTimerMultiplier = 1f;
         holdingKick = false;
 
         while (maxTime >= 0.0f)
