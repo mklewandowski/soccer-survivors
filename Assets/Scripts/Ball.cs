@@ -35,7 +35,6 @@ public class Ball : MonoBehaviour
                 StopBall();
             }
         }
-
     }
 
     public void SpinBall()
@@ -57,5 +56,18 @@ public class Ball : MonoBehaviour
         movementVector = newMovement;
         lerpTimer = 1f;
         isMoving = true;
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        Debug.Log(other.tag);
+        if (other.tag == "Wall" && isMoving)
+        {
+            // maxMovementVector = maxMovementVector * -1f;
+            maxMovementVector = Vector2.Reflect(maxMovementVector, other.GetComponent<Wall>().GetInNormal());
+            if (lerpTimer < .5f)
+                lerpTimer = .5f;
+            Debug.Log(maxMovementVector);
+        }
     }
 }

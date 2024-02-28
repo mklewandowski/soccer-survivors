@@ -909,7 +909,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!58 &775418777
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -1106,9 +1106,10 @@ GameObject:
   - component: {fileID: 905864704}
   - component: {fileID: 905864706}
   - component: {fileID: 905864707}
+  - component: {fileID: 905864708}
   m_Layer: 0
   m_Name: Barrier
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1121,7 +1122,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 905864703}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 12.5, z: 0}
+  m_LocalPosition: {x: 0, y: 11.25, z: 0}
   m_LocalScale: {x: 70, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1191,7 +1192,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -1207,6 +1208,19 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &905864708
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 905864703}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df29b7e9e2996804480590100b6540d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inNormal: {x: 0, y: -1}
 --- !u!1 &909232147
 GameObject:
   m_ObjectHideFlags: 0
@@ -1252,7 +1266,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: 1.25}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -1276,9 +1290,10 @@ GameObject:
   - component: {fileID: 1071701282}
   - component: {fileID: 1071701285}
   - component: {fileID: 1071701283}
+  - component: {fileID: 1071701286}
   m_Layer: 0
   m_Name: Barrier
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1309,7 +1324,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -1377,6 +1392,19 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1071701286
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1071701281}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df29b7e9e2996804480590100b6540d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inNormal: {x: 0, y: 1}
 --- !u!1 &1102649687
 GameObject:
   m_ObjectHideFlags: 0
@@ -1446,9 +1474,10 @@ GameObject:
   - component: {fileID: 1578246436}
   - component: {fileID: 1578246439}
   - component: {fileID: 1578246437}
+  - component: {fileID: 1578246440}
   m_Layer: 0
   m_Name: Barrier
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1479,7 +1508,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -1547,6 +1576,19 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1578246440
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1578246435}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df29b7e9e2996804480590100b6540d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inNormal: {x: -1, y: 0}
 --- !u!1 &1676486221
 GameObject:
   m_ObjectHideFlags: 0
@@ -1664,9 +1706,10 @@ GameObject:
   - component: {fileID: 2079120834}
   - component: {fileID: 2079120837}
   - component: {fileID: 2079120835}
+  - component: {fileID: 2079120838}
   m_Layer: 0
   m_Name: Barrier
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1697,7 +1740,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -1765,3 +1808,16 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &2079120838
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2079120833}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df29b7e9e2996804480590100b6540d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inNormal: {x: 1, y: 0}

@@ -169,7 +169,7 @@ public class Player : MonoBehaviour
             }
 
         }
-        bool kickBall = Input.GetKey(KeyCode.Space) && ball != null;
+        bool kickBall = Input.GetKeyUp(KeyCode.Space) && ball != null;
         if (kickBall)
         {
             float xSpeed = 0;
@@ -187,7 +187,8 @@ public class Player : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D other) {
+    private void OnTriggerEnter2D(Collider2D other)
+    {
         Debug.Log(other.tag);
         if (other.tag == "Ball")
         {
