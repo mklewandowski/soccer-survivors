@@ -218,6 +218,7 @@ GameObject:
   - component: {fileID: 211875995}
   - component: {fileID: 211875994}
   - component: {fileID: 211875993}
+  - component: {fileID: 211875996}
   m_Layer: 0
   m_Name: PlayerSprite
   m_TagString: Untagged
@@ -313,6 +314,18 @@ Transform:
   m_Father: {fileID: 780744381}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &211875996
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 211875992}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f371f8a1ed2653489f33536771ccd14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &240940659
 GameObject:
   m_ObjectHideFlags: 0
@@ -1438,6 +1451,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PlayerGO: {fileID: 211875992}
+  playerAnimation: {fileID: 211875996}
   FlashMaterial: {fileID: 0}
   HealthBar: {fileID: 313108921}
   HealthBarBack: {fileID: 0}

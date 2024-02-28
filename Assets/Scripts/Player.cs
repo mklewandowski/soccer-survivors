@@ -18,8 +18,7 @@ public class Player : MonoBehaviour
     };
     PlayerOrientation currentPlayerOrientation = PlayerOrientation.Right;
 
-    [SerializeField]
-    GameObject PlayerGO;
+    [SerializeField] GameObject PlayerGO;
 
     float moveSpeed = 3f;
     float moveSpeedInitial = 3;
@@ -31,6 +30,7 @@ public class Player : MonoBehaviour
     private Rigidbody2D playerRigidbody;
     bool isMoving = false;
     Animator playerAnimator;
+    [SerializeField] PlayerAnimation playerAnimation;
     float dustTimer = 0f;
     float dustTimerMax = .1f;
 
@@ -40,22 +40,19 @@ public class Player : MonoBehaviour
     float invincibleTimerMax = .6f;
     private SpriteRenderer playerRenderer;
     private BoxCollider2D playerCollider;
-    [SerializeField]
-    Material FlashMaterial;
+    [SerializeField] Material FlashMaterial;
     Material playerMaterial;
     float flashTimer = 0f;
     float flashTimerMax = .15f;
-    [SerializeField]
-    GameObject HealthBar;
-    [SerializeField]
-    GameObject HealthBarBack;
+    [SerializeField] GameObject HealthBar;
+    [SerializeField] GameObject HealthBarBack;
 
 	float controllerLeftStickX;
 	float controllerLeftStickY;
 
     Ball ball;
-    float ballOffsetY = -.5f;
-    float ballOffsetX = .6f;
+    float ballOffsetY = -.45f;
+    float ballOffsetX = .7f;
     float minKickPower = 5f;
     float maxKickPower = 20f;
     float kickPower = 5f;
@@ -65,6 +62,7 @@ public class Player : MonoBehaviour
     [SerializeField] GameObject PowerBarFront;
     float maxPowerBarWidth = 100f;
     bool holdingKick = false;
+    bool kicking = false;
 
     // Start is called before the first frame update
     void Start()
@@ -84,65 +82,6 @@ public class Player : MonoBehaviour
     {
         HandleMovement();
         HandleKick();
-    }
-
-    private void HandleKick()
-    {
-        if (ball)
-        {
-            if (isMoving)
-            {
-                float orientation = 1f;
-                if (PlayerGO.transform.localEulerAngles.y == 180f)
-                    orientation = -1f;
-                ball.SpinBall();
-                ball.MoveBall(new Vector3(this.transform.localPosition.x + ballOffsetX * orientation, this.transform.localPosition.y + ballOffsetY, this.transform.localPosition.z));
-            }
-            else
-            {
-                ball.StopBall();
-            }
-
-        }
-        if (!holdingKick && ball)
-        {
-            holdingKick = Input.GetKeyDown(KeyCode.Space);
-            if (holdingKick)
-            {
-                kickTimer = 0;
-                PowerBar.SetActive(true);
-            }
-        }
-
-        if (holdingKick)
-        {
-            kickTimer += Time.deltaTime;
-            kickTimer = Mathf.Min(kickTimer, kickTimerMax);
-            // calc width
-            float percent = kickTimer / kickTimerMax;
-            kickPower = minKickPower + (maxKickPower - minKickPower) * percent;
-            PowerBarFront.transform.localScale = new Vector3(maxPowerBarWidth * percent, PowerBarFront.transform.localScale.y, PowerBarFront.transform.localScale.z);
-        }
-
-        bool kickBall = Input.GetKeyUp(KeyCode.Space) && ball != null;
-        if (kickBall)
-        {
-            PowerBar.SetActive(false);
-            kickTimer = 0;
-            holdingKick = false;
-            float xSpeed = 0;
-            if (currentPlayerOrientation == PlayerOrientation.UpRight || currentPlayerOrientation == PlayerOrientation.Right || currentPlayerOrientation == PlayerOrientation.DownRight)
-                xSpeed = kickPower;
-            if (currentPlayerOrientation == PlayerOrientation.UpLeft || currentPlayerOrientation == PlayerOrientation.Left || currentPlayerOrientation == PlayerOrientation.DownLeft)
-                xSpeed = -kickPower;
-            float ySpeed = 0;
-            if (currentPlayerOrientation == PlayerOrientation.UpRight || currentPlayerOrientation == PlayerOrientation.Up || currentPlayerOrientation == PlayerOrientation.UpLeft)
-                ySpeed = kickPower;
-            if (currentPlayerOrientation == PlayerOrientation.DownRight || currentPlayerOrientation == PlayerOrientation.Down || currentPlayerOrientation == PlayerOrientation.DownLeft)
-                ySpeed = -kickPower;
-            ball.LaunchBall(new Vector2(xSpeed, ySpeed));
-            ball = null;
-        }
     }
 
     private void HandleMovement()
@@ -186,12 +125,14 @@ public class Player : MonoBehaviour
         if ((movementVector.x != 0 || movementVector.y != 0) && !isMoving)
         {
             isMoving = true;
-            playerAnimator.Play("player-walk" + Globals.AnimationSuffixes[(int)Globals.currentPlayerType]);
+            playerAnimation.SetIsMoving(true);
+            if (!kicking) playerAnimator.Play("player-walk" + Globals.AnimationSuffixes[(int)Globals.currentPlayerType]);
         }
         else if (movementVector.x == 0 && movementVector.y == 0 && isMoving)
         {
             isMoving = false;
-            playerAnimator.Play("player-idle" + Globals.AnimationSuffixes[(int)Globals.currentPlayerType]);
+            playerAnimation.SetIsMoving(false);
+            if (!kicking) playerAnimator.Play("player-idle" + Globals.AnimationSuffixes[(int)Globals.currentPlayerType]);
         }
 
         if (moveRight && !moveUp && !moveDown)
@@ -223,9 +164,90 @@ public class Player : MonoBehaviour
         //     GunGO.transform.localEulerAngles = new Vector3(0, 0, 315f);
     }
 
+
+    private void HandleKick()
+    {
+        if (ball)
+        {
+            if (isMoving)
+            {
+                float orientation = 1f;
+                if (PlayerGO.transform.localEulerAngles.y == 180f)
+                    orientation = -1f;
+                ball.SpinBall();
+                ball.MoveBall(new Vector3(this.transform.localPosition.x + ballOffsetX * orientation, this.transform.localPosition.y + ballOffsetY, this.transform.localPosition.z));
+            }
+            else
+            {
+                ball.StopBall();
+            }
+        }
+
+        if (!holdingKick && !kicking && ball)
+        {
+            holdingKick = Input.GetKeyDown(KeyCode.Space);
+            if (holdingKick)
+            {
+                kickTimer = 0;
+                PowerBar.SetActive(true);
+            }
+        }
+
+        if (holdingKick)
+        {
+            kickTimer += Time.deltaTime;
+            kickTimer = Mathf.Min(kickTimer, kickTimerMax);
+            // calc width
+            float percent = kickTimer / kickTimerMax;
+            kickPower = minKickPower + (maxKickPower - minKickPower) * percent;
+            PowerBarFront.transform.localScale = new Vector3(maxPowerBarWidth * percent, PowerBarFront.transform.localScale.y, PowerBarFront.transform.localScale.z);
+        }
+
+        bool kickBall = Input.GetKeyUp(KeyCode.Space) && ball != null;
+        if (kickBall)
+        {
+            StartCoroutine(KickBall());
+
+        }
+    }
+
+    IEnumerator KickBall()
+    {
+        kicking = true;
+        float maxTime = .3f;
+        playerAnimator.Play("player-shoot" + Globals.AnimationSuffixes[(int)Globals.currentPlayerType]);
+        PowerBar.SetActive(false);
+        kickTimer = 0;
+        holdingKick = false;
+
+        while (maxTime >= 0.0f)
+        {
+            maxTime -= Time.deltaTime;
+            yield return null;
+        }
+
+        float xSpeed = 0;
+        if (currentPlayerOrientation == PlayerOrientation.UpRight || currentPlayerOrientation == PlayerOrientation.Right || currentPlayerOrientation == PlayerOrientation.DownRight)
+            xSpeed = kickPower;
+        if (currentPlayerOrientation == PlayerOrientation.UpLeft || currentPlayerOrientation == PlayerOrientation.Left || currentPlayerOrientation == PlayerOrientation.DownLeft)
+            xSpeed = -kickPower;
+        float ySpeed = 0;
+        if (currentPlayerOrientation == PlayerOrientation.UpRight || currentPlayerOrientation == PlayerOrientation.Up || currentPlayerOrientation == PlayerOrientation.UpLeft)
+            ySpeed = kickPower;
+        if (currentPlayerOrientation == PlayerOrientation.DownRight || currentPlayerOrientation == PlayerOrientation.Down || currentPlayerOrientation == PlayerOrientation.DownLeft)
+            ySpeed = -kickPower;
+        ball.LaunchBall(new Vector2(xSpeed, ySpeed));
+        ball = null;
+        kicking = false;
+    }
+
+    public void EndKick()
+    {
+
+    }
+
     private void OnTriggerEnter2D(Collider2D other)
     {
-        Debug.Log(other.tag);
         if (other.tag == "Ball")
         {
             ball = other.GetComponent<Ball>();
