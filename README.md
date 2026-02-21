@@ -15,7 +15,7 @@ Soccer Survivors is designed for use on multiple platforms including:
 ## Running Locally
 Use the following steps to run locally:
 1. Clone this repo
-2. Open repo folder using Unity 2021.3.35f1
+2. Open repo folder using Unity 2022.3.62f3
 3. Install Text Mesh Pro
 
 ## Building the Project
