@@ -1,5 +1,5 @@
 # soccer-survivors
-Vampire survivors with shots on goal
+Vampire survivors with shots on goal.
 
 ## Gameplay
 - Score as many goals as you can.
